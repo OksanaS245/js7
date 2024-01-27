@@ -1,6 +1,6 @@
 //task 7
 const date = new Date();
-const time = date.toLocaleTimeString() + ' ' + date.toLocaleDateString();
+const time = date.toLocaleDateString();
 class Stock {
     constructor() {
         this.goods = {};
@@ -15,7 +15,7 @@ class Stock {
         for (let name in this.goods) {
         this.goods[name].quantity += quantity;
         this.goods[name].price = price;
-        this.goods[name].purchaseDate.push(purchaseDate);}
+        this.goods[name].purchaseDate = [purchaseDate];}
     }
 
     deleteGood(name, quantity) {
@@ -40,7 +40,7 @@ class Stock {
                 if (this.goods[name].quantity > 0 && this.goods[name].quantity >= quantity) {
                     this.goods[name].quantity -= quantity;
                 } else {
-                    throw new Error('Not enough, delete goods');
+                    delete this.goods[name];
                 }
             } else {
                 throw new Error('Item not found');
