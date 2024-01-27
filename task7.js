@@ -1,56 +1,67 @@
 //task 7
 const date = new Date();
-
-function addZero(num){
-    if (num > 0 && num < 10) { 
-        return '0' + num;
-    } else {
-        return num;
-    }
-};
-let formattedDate = addZero(date.getDate()) + "." + addZero(date.getMonth() + 1) + "." + addZero(date.getFullYear());
-
+const time = date.toLocaleTimeString() + ' ' + date.toLocaleDateString();
 class Stock {
     constructor() {
         this.goods = {};
     }
 
     addGood(name, quantity, price, purchaseDate) {
-        if (!this.goods.hasOwnProperty(name)) {
-            this.goods[name] = {
-                quantity: 0,
-                price: 0,
-                purchaseDate: []
-            };
-        }
+        this.goods[name] = {
+            quantity: 0,
+            price: 0,
+            purchaseDate: []
+        };
+        for (let name in this.goods) {
         this.goods[name].quantity += quantity;
-        this.goods[name].price += quantity * price;
-        this.goods[name].purchaseDate.push(purchaseDate);
+        this.goods[name].price = price;
+        this.goods[name].purchaseDate.push(purchaseDate);}
     }
 
-    deleteGood(name, quantity, price) {
-        if (this.goods.hasOwnProperty(name)) {
-            if (this.goods[name].quantity === quantity || (this.goods[name].quantity === 0 && this.goods[name].quantity < quantity)) {
-                delete this.goods[name];
+    deleteGood(name, quantity) {
+        try {
+            if (this.goods.hasOwnProperty(name)) {
+                if (this.goods[name].quantity === quantity || (this.goods[name].quantity === 0 && this.goods[name].quantity < quantity)) {
+                    delete this.goods[name];
+                } else {
+                    throw new Error('Not in stock');
+                }
             } else {
-                this.goods[name].quantity -= quantity;
-                this.goods[name].price -= quantity * price;
+                throw new Error('Item not found');
             }
-        } else {
-            throw new Error('Not in stock');
+        } catch (error) {
+            console.error(error.message);
         }
     }
+
+    outInStock(name, quantity) {
+        try {
+            if (this.goods.hasOwnProperty(name)) {
+                if (this.goods[name].quantity > 0 && this.goods[name].quantity >= quantity) {
+                    this.goods[name].quantity -= quantity;
+                } else {
+                    throw new Error('Not enough, delete goods');
+                }
+            } else {
+                throw new Error('Item not found');
+            }
+        } catch (error) {
+            console.error(error.message);
+        }
+    }
+    
     getPrice() 
     {let totalPrice = 0;
     for (const item in this.goods) {
-        totalPrice += this.goods[item].price;
+        totalPrice += this.goods[item].price * this.goods[item].quantity;
     }
     return totalPrice;}
 }
 
 const vegetable = new Stock();
-vegetable.addGood('cucumber', 10, 150, formattedDate);
-vegetable.addGood('tomato', 5, 100, formattedDate);
-vegetable.deleteGood ('cucumber', 5, 150);
+vegetable.addGood('cucumber', 10, 150, time);
+vegetable.addGood('tomato', 5, 100, time);
+vegetable.outInStock('cucumber', 5, 150);
+vegetable.outInStock('peper', 7, 150);
 console.log(vegetable.goods);
 console.log('Total price: ' + vegetable.getPrice())

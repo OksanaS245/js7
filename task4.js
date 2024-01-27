@@ -1,19 +1,24 @@
 //task 4
 class Goods {
-    constructor() {
-    this.goods = {};
+    constructor(listOfGoods = {}) { //конструктор класса Goods принимает в качестве аргумента пустой объект
+    this.goods = listOfGoods; //свойство goods равно аргументу listOfGoods
     }
-    calculatePrice(name, price, quantity) {
-        this.goods[name] = {price, quantity}
+    calculatePrice() {
         let totalSum = 0;
-        for (let nameOfProduct in this.goods) {
-            const good = this.goods[nameOfProduct];
+        for (let name in this.goods) { //создаем перменную-ключ в свойстве goods, которое принимает значение listOfGoods
+            const good = this.goods[name]; //создаем переменную good и присваиваем ей значение товара (объекта с ценой и количеством) для текущего ключа name.
             totalSum += good.price * good.quantity;
         }
         return totalSum;
     }
 };
 
-const someGood = new Goods();
-console.log(someGood.calculatePrice('Fish', 5, 150));
+const list = {
+    //ключ  [     значение             ]
+    Laptop: { price: 1200, quantity: 5 },
+    Smartphone: { price: 500, quantity: 10 },
+    Headphones: { price: 50, quantity: 20 }
+}
+const someGood = new Goods(list);
+console.log('Total price is ' + someGood.calculatePrice());
 

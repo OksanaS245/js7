@@ -1,17 +1,37 @@
 //task 5
 class Student {
-    constructor() {
-        this.gpa = {};
+    constructor(students = {}) {//конструктор принимает в качестве аргумента пустой объект
+        this.students = students; //свойство students принимает значение пустого объекта
     }
 
-    checkGPA(name, grades) {
-        this.gpa[name] = {
-            gpa: grades.reduce((sum, grade) => sum + grade, 0) / grades.length
-        };
-        return this.gpa[name].gpa;
+    checkGPA() {
+        for (let studentName in this.students) { //создаем ключ в объекте
+            const student = this.students[studentName]; //создаем переменную, которая принимает значение ключа объекта
+            let totalGrades = 0; // начальное значение оценок
+            let totalSubjects = 0; //начальное значение количества предметов
+
+            for (let subject in student) { // создаем ключ во вложенном объекте (конкретный студент)
+                totalGrades += student[subject]; // оценки = значение ключа во вложенном объекте
+                totalSubjects += 1;//увеличиваем на 1 количество предметов с каждой итерацией
+            }
+
+        
+                const gpa = totalGrades / totalSubjects; //находим средний балл
+                console.log(`${studentName}'s average GPA: ${gpa.toFixed(2)}`); //округляем значение ср.б. до двух цифр после запятой
+            }
     }
 }
 
-const ivan = new Student();
-console.log(ivan.checkGPA('Ivan', [5, 3, 5, 4])); //Я не могу понять как вывести имя студента. Если указываю свойства и параметры класса, то выводит имя, но средний балл - NaN
+const studentsData = {
+    'Ivan': {
+        math: 4,
+        english: 5
+    },
+    'Alex': {
+        math: 3,
+        english: 4
+    }
+}
 
+const studentInstance = new Student(studentsData);
+studentInstance.checkGPA();

@@ -1,11 +1,11 @@
 //task 3
 class Artist {
-    name;
-    gender;
-    age;
-    hight;
-    movies;
-    awards;
+    //name;
+    //gender;
+    //age;               получается, что объявление полей без заданных параметров не обязательно?
+    //hight;
+    //movies;
+    //awards;
     constructor(name, gender, age, hight, movies, awards) {
         this.name = name;
         this.gender = gender;
@@ -25,5 +25,5 @@ class Artist {
 };
 
 const leo = new Artist('Leonardo Wilhelm DiCaprio', 'male', 49, 1.83, ['Titanic', 'The Wolf of Wall Street', 'The Great Gatsby'], ['"Oscar"', 'BAFTA', 'Screen Actors Guild Award', '"Golden Globe"', '"Silver Bear"']);
-console.log(leo.printInfo ());
+leo.printInfo();
 
