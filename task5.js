@@ -4,12 +4,13 @@ class Student {
         this.students = students; //свойство students принимает значение пустого объекта
     }
 
-    checkGPA() {
+    calculateAverageGrades() {
+        let result = '';
         for (let studentName in this.students) { //создаем ключ в объекте
             const student = this.students[studentName]; //создаем переменную, которая принимает значение ключа объекта
             let totalGrades = 0; // начальное значение оценок
             let totalSubjects = 0; //начальное значение количества предметов
-
+            
             for (let subject in student) { // создаем ключ во вложенном объекте (конкретный студент)
                 totalGrades += student[subject]; // оценки = значение ключа во вложенном объекте
                 totalSubjects += 1;//увеличиваем на 1 количество предметов с каждой итерацией
@@ -17,9 +18,11 @@ class Student {
 
         
                 const gpa = totalGrades / totalSubjects; //находим средний балл
-                console.log(`${studentName}'s average GPA: ${gpa.toFixed(2)}`); //округляем значение ср.б. до двух цифр после запятой
+               result += `${studentName}'s average GPA: ${gpa.toFixed(2)} `; //округляем значение ср.б. до двух цифр после запятой
             }
-    }
+            return result;
+    } 
+    
 }
 
 const studentsData = {
@@ -34,4 +37,4 @@ const studentsData = {
 }
 
 const studentInstance = new Student(studentsData);
-studentInstance.checkGPA();
+console.log(studentInstance.calculateAverageGrades());
